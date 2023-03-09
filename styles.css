@@ -1,0 +1,30 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1 {
+    width: fit-content;
+    margin: 50px auto;
+}
+
+#game-board {
+    margin: 0 auto;
+    width: 450px;
+    height: 450px;
+    padding-left: 75px;
+    padding-top: 75px;
+    display: grid;
+    grid-template: repeat(3, 100px) / repeat(3, 100px);
+    background-color: gray;
+
+}
+
+.game-square {
+    height: 100px;
+    width: 100px;
+    border: solid gray 2px;
+    background-color: whitesmoke;
+}

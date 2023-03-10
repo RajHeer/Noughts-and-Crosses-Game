@@ -2,9 +2,18 @@ const gameBoard = ( () => {
     const boardArr = [];
 
     // CACHE DOM (SELECTORS) //
+    const board = document.querySelector('#game-board');
+    const squares = board.querySelectorAll('.game-square');
 
     // EVENT BINDERS //
-        //Squares on click call moveMove
+    squares.forEach(square => {
+        square.addEventListener('click', getSqID);
+    });
+
+    // GET SQUARE ID //
+    function getSqID(e) {
+        console.log(e.target.id);
+    }  
 
     // UPDATE BOARD ARRAY //
     function updateBoardArr(squareID, nextPlayer) {

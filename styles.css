@@ -27,4 +27,7 @@ h1 {
     width: 100px;
     border: solid gray 2px;
     background-color: whitesmoke;
+    font-size: 3.5rem;
+    text-align: center;
+    padding: 1rem 0
 }

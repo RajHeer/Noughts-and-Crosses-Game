@@ -48,7 +48,10 @@ const gameBoard = ( () => {
 })();
 
 const gameflow = ( () => {
-    const playersArr = [];
+    const playersArr = [
+        {playerName: "One", playerSym: "X"},
+        {playerName: "Two", playerSym: "O"},
+    ];
     let currentPlayer = playersArr[0];
 
     // SET PLAYER //
@@ -82,11 +85,11 @@ const gameflow = ( () => {
 
 })();
 
-const playerFactory = (name, symbol) => {
+const playerFactory = (playerName, playerSym) => {
 
     return {
-        name,
-        symbol
+        playerName,
+        playerSym
     }
 
 };

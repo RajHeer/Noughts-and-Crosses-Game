@@ -13,30 +13,40 @@ const gameBoard = ( () => {
     // GET SQUARE ID //
     function getSqID(e) {
         console.log(e.target.id);
+        // if sq is empty CALL updateBoard
+        // else 'pick another sq feedback'
     }  
 
     // UPDATE BOARD ARRAY //
-    function updateBoardArr(squareID, nextPlayer) {
-        //push player symbol into squareID
+    function updateBoardArr(squareID) {
+        // CALL current player
+        // boardArr[squareID] = currentPlayer.symbol
         // call updateDisplay
     }
+
+})();
+
+const updateDisplay( () => {
 
     // UPDATE DISPLAY //
     function updateDisplay(nextPlayer) {
         //loop through boardArr
         //index/value = squareID/ HTML of square
-        //Update next player html
+        // CALL checkWin
+        // if true - delcare winner, end game
+        // if false - update whose turn
+        // CALL changePlayer
     }
 
     return {
-        updateBoardArr
-    };
+        updateDisplay
+    }
 
 })();
 
 const gameflow = ( () => {
     const playersArr = [];
-    let currentPlayer = playersArr[0].name;
+    let currentPlayer = playersArr[0];
 
     // SET PLAYER //
     function setPlayer() {
@@ -45,26 +55,26 @@ const gameflow = ( () => {
         // Push player obj into playersArr
     }
 
-    // UPDATE NEXT PLAYER //
-    function updateNextPlayer() {
-        // if player[0] then player[1] else etc//
+    // CHECK CURRENT PLAYER //
+    function checkPlayer() {
+        return currentPlayer;
     }
 
-    // MAKE MOVE //
-    function makeMove() {
-        // if selected square is empty get ID & player.symb
-        // calls updateNextPlayer
-        // call updateBoardArr
-        // calls checkWin
+    // UPDATE TO NEXT PLAYER //
+    function changePlayer() {
+        // if player[0] then player[1] else etc//
     }
 
     // CHECK WIN //
     function checkWin() {
         // three in a row logic
+        // return true/ false
     }
 
     return {
-        makeMove,
+        checkPlayer,
+        checkWin,
+        changePlayer
     };
 
 })();

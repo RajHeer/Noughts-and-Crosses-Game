@@ -1,5 +1,5 @@
 const gameBoard = ( () => {
-    const boardArr = [];
+    const boardArr = [ ["","",""],["","",""],["","",""]];
 
     // CACHE DOM (SELECTORS) //
     const board = document.querySelector('#game-board');
@@ -12,13 +12,20 @@ const gameBoard = ( () => {
 
     // GET SQUARE ID //
     function getSqID(e) {
-        console.log(e.target.id);
-        // if sq is empty CALL updateBoard
-        // else 'pick another sq feedback'
+        if (e.target.innerHTML === "") {
+            updateBoardArr(e.target.id)
+        } else {
+            console.log("Taken square. Pick another.")
+        }
     }  
 
     // UPDATE BOARD ARRAY //
     function updateBoardArr(squareID) {
+        const indices = squareID.match(/(\d)/g)
+        const row = indices[0];
+        const col = indices[1];
+        boardArr[row][col] = "X";
+        console.log(boardArr);
         // CALL current player
         // boardArr[squareID] = currentPlayer.symbol
         // call updateDisplay

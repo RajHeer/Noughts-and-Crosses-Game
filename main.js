@@ -28,25 +28,21 @@ const gameBoard = ( () => {
         console.log(boardArr);
         // CALL current player
         // boardArr[squareID] = currentPlayer.symbol
-        // call updateDisplay
+        updateDisplay();
     }
 
-})();
-
-const controllerDisplay = ( () => {
-
-    // UPDATE DISPLAY //
-    function updateDisplay(nextPlayer) {
-        //loop through boardArr
-        //index/value = squareID/ HTML of square
+     // UPDATE DISPLAY //
+     function updateDisplay() {
+        squares.forEach(square => {
+            const indices = square.id.match(/(\d)/g)
+            const row = indices[0];
+            const col = indices[1];
+            square.innerHTML =  boardArr[row][col];
+        })
         // CALL checkWin
         // if true - delcare winner, end game
         // if false - update whose turn
         // CALL changePlayer
-    }
-
-    return {
-        updateDisplay
     }
 
 })();

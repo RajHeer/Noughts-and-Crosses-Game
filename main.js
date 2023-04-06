@@ -46,8 +46,8 @@ const gameBoard = ( () => {
 
 const gameflow = ( () => {
     const playersArr = [
-        {playerName: "One", playerSym: "X"},
-        {playerName: "Two", playerSym: "O"},
+        {playerName: "One", playerSym: "O"},
+        {playerName: "Two", playerSym: "X"},
     ];
     let currentPlayer = playersArr[0];
 

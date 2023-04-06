@@ -26,7 +26,7 @@ const gameBoard = ( () => {
 
 })();
 
-const updateDisplay( () => {
+const controllerDisplay = ( () => {
 
     // UPDATE DISPLAY //
     function updateDisplay(nextPlayer) {

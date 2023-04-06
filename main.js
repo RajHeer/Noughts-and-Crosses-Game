@@ -37,10 +37,9 @@ const gameBoard = ( () => {
             const col = indices[1];
             square.innerHTML =  boardArr[row][col];
         })
-        // CALL checkWin
-        // if true - delcare winner, end game
-        // if false - update whose turn
-        // CALL changePlayer
+        const isWin = gameflow.checkWin(boardArr)
+            isWin ? console.log("Winner")
+            : gameflow.changePlayer();
     }
 
 })();
@@ -66,13 +65,16 @@ const gameflow = ( () => {
 
     // UPDATE TO NEXT PLAYER //
     function changePlayer() {
-        // if player[0] then player[1] else etc//
+        currentPlayer === playersArr[0] 
+        ? currentPlayer = playersArr[1]
+        : currentPlayer = playersArr[0];
     }
 
     // CHECK WIN //
-    function checkWin() {
+    function checkWin(boardArr) {
         // three in a row logic
         // return true/ false
+        return false;
     }
 
     return {

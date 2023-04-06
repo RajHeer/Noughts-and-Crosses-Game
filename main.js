@@ -4,11 +4,16 @@ const gameBoard = ( () => {
     // CACHE DOM (SELECTORS) //
     const board = document.querySelector('#game-board');
     const squares = board.querySelectorAll('.game-square');
+    const playerInputs = document.querySelectorAll('input');
 
     // EVENT BINDERS //
     squares.forEach(square => {
         square.addEventListener('click', getSqID);
     });
+
+    playerInputs.forEach(playerInput => {
+        playerInput.addEventListener("keydown", callSetPlayer);
+    })
 
     // GET SQUARE ID //
     function getSqID(e) {
@@ -18,6 +23,13 @@ const gameBoard = ( () => {
             console.log("Taken square. Pick another.")
         }
     }  
+
+    // CALL SET PLAYER (CAN'T DIRECT REFERENCE ON INITIALISATION)
+    function callSetPlayer(e) {
+        if (e.keyCode === 13) {
+            gameflow.setPlayer(e);
+        }
+    }
 
     // UPDATE BOARD ARRAY //
     function updateBoardArr(squareID) {
@@ -52,7 +64,8 @@ const gameflow = ( () => {
     let currentPlayer = playersArr[0];
 
     // SET PLAYER //
-    function setPlayer() {
+    function setPlayer(e) {
+        console.log(e.target.value);
         // Input player name & symbol
         // call playerFactory
         // Push player obj into playersArr
@@ -80,7 +93,8 @@ const gameflow = ( () => {
     return {
         checkPlayer,
         checkWin,
-        changePlayer
+        changePlayer,
+        setPlayer
     };
 
 })();

@@ -24,10 +24,8 @@ const gameBoard = ( () => {
         const indices = squareID.match(/(\d)/g)
         const row = indices[0];
         const col = indices[1];
-        boardArr[row][col] = "X";
-        console.log(boardArr);
-        // CALL current player
-        // boardArr[squareID] = currentPlayer.symbol
+        const currentPlayer = gameflow.checkPlayer();
+        boardArr[row][col] = currentPlayer.playerSym;
         updateDisplay();
     }
 

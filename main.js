@@ -85,14 +85,22 @@ const gameflow = ( () => {
 
     // CHECK WIN //
     function checkWin(boardArr) {
-        // three in a row logic
         let count = 0;
         while (count < 3){
+            // Loops to check all rows
             if (boardArr[count][0] != "" && boardArr[count][0] === boardArr[count][1]
             && boardArr[count][1] === boardArr[count][2]) {
                 console.log(currentPlayer.playerName + " wins.");
+            // Loops to check all columns
             } else if (boardArr[0][count] != "" && boardArr[0][count] === boardArr[1][count]
             && boardArr[1][count] === boardArr[2][count]) {
+                console.log(currentPlayer.playerName + " wins.");
+            // Loops to check diagonals
+            } else if (boardArr[0][0] != "" && boardArr[0][0] === boardArr[1][1]
+            && boardArr[1][1] === boardArr[2][2]) {
+                console.log(currentPlayer.playerName + " wins.");
+            } else if (boardArr[2][0] != "" && boardArr[2][0] === boardArr[1][1]
+            && boardArr[1][1] === boardArr[0][2]) {
                 console.log(currentPlayer.playerName + " wins.");
             }
             count++;

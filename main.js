@@ -2,13 +2,14 @@ const gameBoard = ( () => {
     const boardArr = [ ["","",""],["","",""],["","",""]];
 
     // CACHE DOM (SELECTORS) //
-    const board = document.querySelector('#game-board');
-    const squares = board.querySelectorAll('.game-square');
-    const playerInputs = document.querySelectorAll('input');
+    const board = document.querySelector("#game-board");
+    const squares = board.querySelectorAll(".game-square");
+    const playerInputs = document.querySelectorAll("input");
+    const display = document.querySelector("#display");
 
     // EVENT BINDERS //
     squares.forEach(square => {
-        square.addEventListener('click', getSqID);
+        square.addEventListener("click", getSqID);
     });
 
     playerInputs.forEach(playerInput => {
@@ -18,13 +19,14 @@ const gameBoard = ( () => {
     // GET SQUARE ID //
     function getSqID(e) {
         if (e.target.innerHTML === "") {
-            updateBoardArr(e.target.id)
+            updateBoardArr(e.target.id);
+            display.innerHTML = "";
         } else {
-            console.log("Taken square. Pick another.")
+            display.innerHTML = "Square taken. Pick another.";
         }
     }  
 
-    // CALL SET PLAYER (CAN'T DIRECT REFERENCE ON INITIALISATION)
+    // CALL SET PLAYER (CAN'T DIRECT REFERENCE ON INITIALISATION) //
     function callSetPlayer(e) {
         if (e.keyCode === 13) {
             gameflow.setPlayer(e);
@@ -65,7 +67,7 @@ const gameflow = ( () => {
 
     // SET PLAYER //
     function setPlayer(e) {
-        console.log(e.target.value);
+        playerFactory(e.target.value);
         // Input player name & symbol
         // call playerFactory
         // Push player obj into playersArr
@@ -91,17 +93,21 @@ const gameflow = ( () => {
             if (boardArr[count][0] != "" && boardArr[count][0] === boardArr[count][1]
             && boardArr[count][1] === boardArr[count][2]) {
                 console.log(currentPlayer.playerName + " wins.");
+                return true;
             // Loops to check all columns
             } else if (boardArr[0][count] != "" && boardArr[0][count] === boardArr[1][count]
             && boardArr[1][count] === boardArr[2][count]) {
                 console.log(currentPlayer.playerName + " wins.");
+                return true;
             // Loops to check diagonals
             } else if (boardArr[0][0] != "" && boardArr[0][0] === boardArr[1][1]
             && boardArr[1][1] === boardArr[2][2]) {
                 console.log(currentPlayer.playerName + " wins.");
+                return true;
             } else if (boardArr[2][0] != "" && boardArr[2][0] === boardArr[1][1]
             && boardArr[1][1] === boardArr[0][2]) {
                 console.log(currentPlayer.playerName + " wins.");
+                return true;
             }
             count++;
         }
@@ -117,8 +123,9 @@ const gameflow = ( () => {
 
 })();
 
-const playerFactory = (playerName, playerSym) => {
-
+const playerFactory = (playerName) => {
+    let count = 0;
+    let playerSym = "X"
     return {
         playerName,
         playerSym

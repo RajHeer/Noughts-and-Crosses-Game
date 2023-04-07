@@ -27,7 +27,9 @@ const gameBoard = ( () => {
 
     // CALL SET PLAYER (CAN'T DIRECT REFERENCE ON INITIALISATION) //
     function callSetPlayer(e) {
+        display.innerHTML = "Press ENTER after NAME.";
         if (e.keyCode === 13) {
+            display.innerHTML = "";
             gameflow.setPlayer(e);
         }
     }
@@ -59,6 +61,7 @@ const gameBoard = ( () => {
 })();
 
 const gameflow = ( () => {
+    // DEFAULT PLAYER NAMES //
     const playersArr = [
         {playerName: "One", playerSym: "O"},
         {playerName: "Two", playerSym: "X"},
@@ -67,10 +70,13 @@ const gameflow = ( () => {
 
     // SET PLAYER //
     function setPlayer(e) {
-        playerFactory(e.target.value);
-        // Input player name & symbol
-        // call playerFactory
-        // Push player obj into playersArr
+        const newPlayer = playerFactory(e.target.value, e.target.id);
+        if (newPlayer.playerSym === "O") {
+            playersArr[0] = newPlayer;
+            currentPlayer = playersArr[0];
+        } else {
+            playersArr[1] = newPlayer;
+        }
     }
 
     // CHECK CURRENT PLAYER //
@@ -88,22 +94,23 @@ const gameflow = ( () => {
     // CHECK WIN //
     function checkWin(boardArr) {
         let count = 0;
+        const confirmWin = {win: true, winner: currentPlayer.playerName}
         while (count < 3){
             // Loops to check all rows
             if (boardArr[count][0] != "" && boardArr[count][0] === boardArr[count][1]
             && boardArr[count][1] === boardArr[count][2]) {
-                return {win: true, winner: currentPlayer.playerName};
+                return confirmWin;
             // Loops to check all columns
             } else if (boardArr[0][count] != "" && boardArr[0][count] === boardArr[1][count]
             && boardArr[1][count] === boardArr[2][count]) {
-                return {win: true, winner: currentPlayer.playerName};
+                return confirmWin;
             // Loops to check diagonals
             } else if (boardArr[0][0] != "" && boardArr[0][0] === boardArr[1][1]
             && boardArr[1][1] === boardArr[2][2]) {
-                return {win: true, winner: currentPlayer.playerName};
+                return confirmWin;
             } else if (boardArr[2][0] != "" && boardArr[2][0] === boardArr[1][1]
             && boardArr[1][1] === boardArr[0][2]) {
-                return {win: true, winner: currentPlayer.playerName};
+                return confirmWin;
             }
             count++;
         }
@@ -139,9 +146,7 @@ const gameflow = ( () => {
 
 })();
 
-const playerFactory = (playerName) => {
-    let count = 0;
-    let playerSym = "X"
+const playerFactory = (playerName, playerSym) => {
     return {
         playerName,
         playerSym

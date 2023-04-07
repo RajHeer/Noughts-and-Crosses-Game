@@ -52,8 +52,8 @@ const gameBoard = ( () => {
             square.innerHTML =  boardArr[row][col];
         })
         const isWin = gameflow.checkWin(boardArr)
-            isWin ? display.innerHTML = `${isWin.winner} wins.`
-            : gameflow.changePlayer();
+        isWin ? display.innerHTML = `${isWin.winner} wins.`
+        : gameflow.changePlayer();
     }
 
 })();
@@ -107,7 +107,27 @@ const gameflow = ( () => {
             }
             count++;
         }
+        const isDraw = checkDraw(boardArr);
+        if (isDraw) {
+            return {win: false, winner: "Draw - nobody"}
+        } 
         return false;
+    }
+
+    //CHECK DRAW (ONLY WORKS THROUGH CALL IN CHECKWIN)//
+    function checkDraw(boardArr) {
+        let rowCount = 0;
+        while (rowCount < 3) {
+            let colCount = 0;
+            while (colCount < 3) {
+                if (boardArr[rowCount][colCount] === "") {
+                    return false;
+                }
+            colCount++;
+            }
+            rowCount++;
+        }
+        return true;
     }
 
     return {

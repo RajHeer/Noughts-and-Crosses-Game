@@ -86,7 +86,14 @@ const gameflow = ( () => {
     // CHECK WIN //
     function checkWin(boardArr) {
         // three in a row logic
-        // return true/ false
+        let rowCount = 0;
+        while (rowCount < 3){
+            if (boardArr[rowCount][0] != "" && boardArr[rowCount][0] === boardArr[rowCount][1]
+            && boardArr[rowCount][1] === boardArr[rowCount][2]) {
+                console.log(currentPlayer.playerName + " wins.");
+            }
+            rowCount++;
+        }
         return false;
     }
 

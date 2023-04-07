@@ -20,7 +20,6 @@ const gameBoard = ( () => {
     function getSqID(e) {
         if (e.target.innerHTML === "") {
             updateBoardArr(e.target.id);
-            display.innerHTML = "";
         } else {
             display.innerHTML = "Square taken. Pick another.";
         }
@@ -45,6 +44,7 @@ const gameBoard = ( () => {
 
      // UPDATE DISPLAY //
      function updateDisplay() {
+        display.innerHTML = "";
         squares.forEach(square => {
             const indices = square.id.match(/(\d)/g)
             const row = indices[0];
@@ -52,7 +52,7 @@ const gameBoard = ( () => {
             square.innerHTML =  boardArr[row][col];
         })
         const isWin = gameflow.checkWin(boardArr)
-            isWin ? console.log("Winner")
+            isWin ? display.innerHTML = `${isWin.winner} wins.`
             : gameflow.changePlayer();
     }
 
@@ -92,22 +92,18 @@ const gameflow = ( () => {
             // Loops to check all rows
             if (boardArr[count][0] != "" && boardArr[count][0] === boardArr[count][1]
             && boardArr[count][1] === boardArr[count][2]) {
-                console.log(currentPlayer.playerName + " wins.");
-                return true;
+                return {win: true, winner: currentPlayer.playerName};
             // Loops to check all columns
             } else if (boardArr[0][count] != "" && boardArr[0][count] === boardArr[1][count]
             && boardArr[1][count] === boardArr[2][count]) {
-                console.log(currentPlayer.playerName + " wins.");
-                return true;
+                return {win: true, winner: currentPlayer.playerName};
             // Loops to check diagonals
             } else if (boardArr[0][0] != "" && boardArr[0][0] === boardArr[1][1]
             && boardArr[1][1] === boardArr[2][2]) {
-                console.log(currentPlayer.playerName + " wins.");
-                return true;
+                return {win: true, winner: currentPlayer.playerName};
             } else if (boardArr[2][0] != "" && boardArr[2][0] === boardArr[1][1]
             && boardArr[1][1] === boardArr[0][2]) {
-                console.log(currentPlayer.playerName + " wins.");
-                return true;
+                return {win: true, winner: currentPlayer.playerName};
             }
             count++;
         }

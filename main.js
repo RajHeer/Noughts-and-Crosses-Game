@@ -1,5 +1,5 @@
 const gameBoard = ( () => {
-    const boardArr = [ ["","",""],["","",""],["","",""]];
+    let boardArr = [ ["","",""],["","",""],["","",""] ];
 
     // CACHE DOM (SELECTORS) //
     const board = document.querySelector("#game-board");
@@ -54,8 +54,15 @@ const gameBoard = ( () => {
             square.innerHTML =  boardArr[row][col];
         })
         const isWin = gameflow.checkWin(boardArr)
-        isWin ? display.innerHTML = `${isWin.winner} wins.`
+        isWin ? reset(isWin)
         : gameflow.changePlayer();
+    }
+
+    function reset(isWin) {
+        display.innerHTML = `${isWin.winner} wins.`
+        boardArr = [ ["","",""],["","",""],["","",""] ];
+        setTimeout(updateDisplay, 1750);
+        setTimeout(gameflow.resetPlayerOne, 1800);
     }
 
 })();
@@ -73,10 +80,15 @@ const gameflow = ( () => {
         const newPlayer = playerFactory(e.target.value, e.target.id);
         if (newPlayer.playerSym === "O") {
             playersArr[0] = newPlayer;
-            currentPlayer = playersArr[0];
+            resetPlayerOne();
         } else {
             playersArr[1] = newPlayer;
         }
+    }
+
+    function resetPlayerOne() {
+        currentPlayer = playersArr[0];
+        console.log(currentPlayer);
     }
 
     // CHECK CURRENT PLAYER //
@@ -141,7 +153,8 @@ const gameflow = ( () => {
         checkPlayer,
         checkWin,
         changePlayer,
-        setPlayer
+        setPlayer,
+        resetPlayerOne
     };
 
 })();

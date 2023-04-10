@@ -1,6 +1,31 @@
 const gameBoard = ( () => {
     let boardArr = [ ["","",""],["","",""],["","",""] ];
 
+    // UPDATE BOARD ARRAY //
+    function updateBoardArr(squareID) {
+        const indices = squareID.match(/(\d)/g)
+        const row = indices[0];
+        const col = indices[1];
+        const currentPlayer = gameflow.checkPlayer();
+        boardArr[row][col] = currentPlayer.playerSym;
+        domController.updateDisplay(domController.getSquares(), boardArr);
+    }
+        
+    function reset() {
+        boardArr = [ ["","",""],["","",""],["","",""] ];
+        setTimeout(domController.updateDisplay.bind(domController.getSquares(), boardArr, false), 1750);
+        setTimeout(gameflow.resetPlayerOne, 1800);
+    }
+
+    return {
+        updateBoardArr,
+        reset
+    }
+
+})();
+
+const domController = ( () => {
+
     // CACHE DOM (SELECTORS) //
     const board = document.querySelector("#game-board");
     const squares = board.querySelectorAll(".game-square");
@@ -19,11 +44,16 @@ const gameBoard = ( () => {
     // GET SQUARE ID //
     function getSqID(e) {
         if (e.target.innerHTML === "") {
-            updateBoardArr(e.target.id);
+            gameBoard.updateBoardArr(e.target.id);
         } else {
             display.innerHTML = "Square taken. Pick another.";
         }
-    }  
+    } 
+    
+    // GET SQUARES //
+    function getSquares() {
+        return squares;
+    }
 
     // CALL SET PLAYER (CAN'T DIRECT REFERENCE ON INITIALISATION) //
     function callSetPlayer(e) {
@@ -33,19 +63,8 @@ const gameBoard = ( () => {
             gameflow.setPlayer(e);
         }
     }
-
-    // UPDATE BOARD ARRAY //
-    function updateBoardArr(squareID) {
-        const indices = squareID.match(/(\d)/g)
-        const row = indices[0];
-        const col = indices[1];
-        const currentPlayer = gameflow.checkPlayer();
-        boardArr[row][col] = currentPlayer.playerSym;
-        updateDisplay();
-    }
-
-     // UPDATE DISPLAY //
-     function updateDisplay() {
+    // UPDATE DISPLAY //
+    function updateDisplay(squares, boardArr, checkWin = true) {
         display.innerHTML = "";
         squares.forEach(square => {
             const indices = square.id.match(/(\d)/g)
@@ -53,16 +72,21 @@ const gameBoard = ( () => {
             const col = indices[1];
             square.innerHTML =  boardArr[row][col];
         })
-        const isWin = gameflow.checkWin(boardArr)
-        isWin ? reset(isWin)
-        : gameflow.changePlayer();
+        if (checkWin) {
+            gameflow.checkWin(boardArr)
+        }
     }
 
-    function reset(isWin) {
-        display.innerHTML = `${isWin.winner} wins.`
-        boardArr = [ ["","",""],["","",""],["","",""] ];
-        setTimeout(updateDisplay, 1750);
-        setTimeout(gameflow.resetPlayerOne, 1800);
+    // FINAL RESULT //
+    function finalResult(result) {
+        display.innerHTML = `${result.winner} wins.`;
+        gameBoard.reset();
+    }
+
+    return {
+        getSquares,
+        updateDisplay,
+        finalResult
     }
 
 })();
@@ -106,31 +130,32 @@ const gameflow = ( () => {
     // CHECK WIN //
     function checkWin(boardArr) {
         let count = 0;
-        const confirmWin = {win: true, winner: currentPlayer.playerName}
+        const result = {win: true, winner: currentPlayer.playerName}
         while (count < 3){
             // Loops to check all rows
             if (boardArr[count][0] != "" && boardArr[count][0] === boardArr[count][1]
             && boardArr[count][1] === boardArr[count][2]) {
-                return confirmWin;
+                domController.finalResult(result);
             // Loops to check all columns
             } else if (boardArr[0][count] != "" && boardArr[0][count] === boardArr[1][count]
             && boardArr[1][count] === boardArr[2][count]) {
-                return confirmWin;
+                domController.finalResult(result);
             // Loops to check diagonals
             } else if (boardArr[0][0] != "" && boardArr[0][0] === boardArr[1][1]
             && boardArr[1][1] === boardArr[2][2]) {
-                return confirmWin;
+                domController.finalResult(result);
             } else if (boardArr[2][0] != "" && boardArr[2][0] === boardArr[1][1]
             && boardArr[1][1] === boardArr[0][2]) {
-                return confirmWin;
+                domController.finalResult(result);
             }
             count++;
         }
         const isDraw = checkDraw(boardArr);
         if (isDraw) {
-            return {win: false, winner: "Draw - nobody"}
-        } 
-        return false;
+            domController.finalResult( {win: false, winner: "Draw - nobody"} );
+        } else {
+            changePlayer();
+        }
     }
 
     //CHECK DRAW (ONLY WORKS THROUGH CALL IN CHECKWIN)//

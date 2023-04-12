@@ -13,7 +13,7 @@ const gameBoard = ( () => {
         
     function reset() {
         boardArr = [ ["","",""],["","",""],["","",""] ];
-        setTimeout(domController.updateDisplay.bind(domController.getSquares(), boardArr, false), 1750);
+        setTimeout(domController.updateDisplay.bind(domController, domController.getSquares(), boardArr, false), 1750);
         setTimeout(gameflow.resetPlayerOne, 1800);
     }
 
